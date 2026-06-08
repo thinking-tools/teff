@@ -1,0 +1,35 @@
+{
+  "name": "teff",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@codeberg.org/thinking_tools/teff.git"
+  },
+  "keywords": [
+    "ui",
+    "components",
+    "component-library",
+    "teff",
+    "lit"
+  ],
+  "files": [
+    "teff.min.css",
+    "teff.min.js",
+    "css",
+    "js"
+  ],
+  "author": "https://codeberg.org/Jolly_Good",
+  "license": "MIT",
+  "description": "Ultra-lightweight, semantic UI component library using Lit on top of the Web Components standards https://lit.dev",
+  "main": "teff.min.js",
+  "style": "teff.min.css",
+  "unpkg": "teff.min.js",
+  "jsdelivr": "teff.min.js",
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "eslint": "^10.4.1"
+  }
+}
