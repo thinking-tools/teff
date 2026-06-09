@@ -4,6 +4,7 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-delay: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
@@ -45,6 +46,46 @@
     @starting-style {
       opacity: 0;
     }
+  }
+
+  /* Opt-in one-shot enter — compositor-only properties (opacity, translate,
+     filter). data-enter animates the element itself; data-enter="stagger"
+     cascades its children 100ms apart, delay capped past the 8th child. */
+  @keyframes teff-enter {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+      filter: blur(4px);
+    }
+  }
+
+  [data-enter]:not([data-enter="stagger"]) {
+    animation: teff-enter 0.4s var(--ease-out) backwards;
+  }
+
+  [data-enter="stagger"] > * {
+    animation: teff-enter 0.4s var(--ease-out) backwards;
+  }
+
+  [data-enter="stagger"] > :nth-child(2) { animation-delay: 100ms; }
+  [data-enter="stagger"] > :nth-child(3) { animation-delay: 200ms; }
+  [data-enter="stagger"] > :nth-child(4) { animation-delay: 300ms; }
+  [data-enter="stagger"] > :nth-child(5) { animation-delay: 400ms; }
+  [data-enter="stagger"] > :nth-child(6) { animation-delay: 500ms; }
+  [data-enter="stagger"] > :nth-child(7) { animation-delay: 600ms; }
+  [data-enter="stagger"] > :nth-child(n + 8) { animation-delay: 700ms; }
+
+  /* Denied/failed feedback — damped, translate-only. Plays once when
+     data-shake is added; teff.shake(el) re-triggers and cleans up. */
+  @keyframes teff-shake {
+    20% { translate: -6px; }
+    40% { translate: 5px; }
+    60% { translate: -3px; }
+    80% { translate: 2px; }
+  }
+
+  [data-shake] {
+    animation: teff-shake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
   }
 
   /* Slide-in animation for toasts */

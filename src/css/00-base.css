@@ -26,23 +26,39 @@
     background-color: var(--background);
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.2));
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--input) transparent;
   }
 
   main {
     padding-block-start: var(--space-8);
   }
 
+  /* Unknown-element fallback for pre-2023 browsers (search is a landmark). */
+  search {
+    display: block;
+  }
+
   img, picture, video, canvas, svg {
     max-width: 100%;
   }
 
-  p, h1, h2, h3, h4, h5, h6 {
+  p, h1, h2, h3, h4, h5, h6, li, dt, dd, figcaption, summary, label, td, th {
     overflow-wrap: break-word;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: var(--font-semibold);
     line-height: 1.25;
+    letter-spacing: var(--tracking-tight);
     text-wrap: balance;
 
     &:first-child {
@@ -104,12 +120,67 @@
     font-weight: var(--font-semibold);
   }
 
-  em, i {
+  em, i, dfn {
     font-style: italic;
   }
 
   small {
     font-size: var(--text-7);
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    padding: calc(var(--space-1) / 2) var(--space-1);
+    background-color: var(--faint);
+    border: 1px solid var(--input);
+    /* Thicker bottom edge reads as keycap depth. */
+    border-bottom-width: 2px;
+    border-radius: var(--radius-small);
+
+    /* Combo wrapper: <kbd><kbd>Cmd</kbd> + <kbd>K</kbd></kbd> */
+    &:has(> kbd) {
+      font-size: 1em;
+      padding: 0;
+      background: none;
+      border: none;
+    }
+  }
+
+  samp, var {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: help;
+  }
+
+  sub, sup {
+    /* Keep super/subscripts from expanding the line box. */
+    font-size: 0.75em;
+    line-height: 0;
+  }
+
+  del {
+    color: var(--danger);
+  }
+
+  ins {
+    color: var(--success);
+    text-decoration-color: rgb(from var(--success) r g b / 0.4);
+  }
+
+  s {
+    color: var(--muted-foreground);
+  }
+
+  u {
+    /* Unarticulated annotation — spec's example is marking misspellings. */
+    text-decoration: underline wavy var(--danger);
+    text-underline-offset: 2px;
   }
 
   code {
@@ -166,8 +237,68 @@
     margin-block-end: var(--space-1);
   }
 
+  dl {
+    margin-block-end: var(--space-4);
+
+    & dt {
+      font-weight: var(--font-medium);
+
+      &:not(:first-child) {
+        margin-block-start: var(--space-2);
+      }
+    }
+
+    & dd {
+      color: var(--muted-foreground);
+    }
+
+    /* Two-column key–value layout. */
+    &[data-grid] {
+      display: grid;
+      grid-template-columns: fit-content(40%) 1fr;
+      column-gap: var(--space-6);
+      row-gap: var(--space-1);
+
+      & dt {
+        margin-block-start: 0;
+      }
+    }
+  }
+
+  figure:not([data-variant]) {
+    margin-block: var(--space-6);
+
+    & > :is(img, video), & > picture > img {
+      display: block;
+      border-radius: var(--radius-medium);
+      outline: 1px solid light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
+      outline-offset: -1px;
+    }
+
+    & > figcaption {
+      margin-block-start: var(--space-2);
+      font-size: var(--text-7);
+      color: var(--muted-foreground);
+    }
+  }
+
+  hgroup {
+    margin-block-end: var(--space-4);
+
+    & > :is(h1, h2, h3, h4, h5, h6) {
+      margin-block-end: var(--space-1);
+    }
+
+    & > p {
+      margin-block-end: 0;
+      color: var(--muted-foreground);
+      text-wrap: balance;
+    }
+  }
+
   mark {
-    background-color: rgb(from var(--warning) r g b / 0.3);
+    background-color: light-dark(var(--logo-citron), rgb(from var(--logo-citron) r g b / 0.3));
+    color: light-dark(var(--logo-pine), inherit);
     padding: calc(var(--space-1) / 2) var(--space-1);
     border-radius: var(--radius-small);
   }

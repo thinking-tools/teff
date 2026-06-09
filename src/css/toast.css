@@ -49,46 +49,48 @@
     --transition: 300ms;
     --transition-in: calc(var(--transition) - 50ms);
 
-    padding: var(--space-5) var(--space-4);
-    max-width: 28rem;
-    min-width: 20rem;
+    padding: var(--space-4) var(--space-5);
+    max-width: min(28rem, calc(100vw - var(--space-8)));
+    min-width: min(20rem, calc(100vw - var(--space-8)));
     pointer-events: auto;
     background-color: var(--card);
-    border: 1px solid var(--border);
-    border-inline-start-width: var(--space-1);
-    border-inline-start-style: solid;
-    border-radius: var(--radius-medium);
+    border-radius: var(--radius-large);
     box-shadow: var(--shadow-large);
     transition: opacity var(--transition-in), transform var(--transition-in), filter var(--transition-in), margin var(--transition-in);
-    line-height: 1;
+    line-height: var(--leading-normal);
+    font-size: var(--text-7);
 
     .toast-title {
-      font-weight: 600;
-      margin: 0 0 var(--space-3) 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-weight: var(--font-semibold);
+      margin: 0 0 var(--space-1) 0;
+
+      /* Variant colour as a leading dot instead of an edge stripe. */
+      &::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        flex-shrink: 0;
+        border-radius: var(--radius-full);
+        background-color: currentColor;
+      }
     }
     .toast-message {
       color: var(--muted-foreground);
     }
 
-    &[data-variant="success"] {
-      border-inline-start-color: var(--success);
-      .toast-title {
-        color: var(--success);
-      }
+    &[data-variant="success"] .toast-title {
+      color: var(--success);
     }
 
-    &[data-variant="danger"] {
-      border-inline-start-color: var(--danger);
-      .toast-title {
-        color: var(--danger);
-      }
+    &[data-variant="danger"] .toast-title {
+      color: var(--danger);
     }
 
-    &[data-variant="warning"] {
-      border-inline-start-color: var(--warning);
-      .toast-title {
-        color: var(--warning);
-      }
+    &[data-variant="warning"] .toast-title {
+      color: var(--warning);
     }
 
     & > [data-close] {
@@ -108,7 +110,7 @@
 
     &[data-entering] {
       opacity: 0;
-      transform: translateY(-1rem);
+      transform: translateY(-0.75rem);
       filter: blur(4px);
     }
 
@@ -118,7 +120,9 @@
       padding-block: 0;
       max-height: 0;
       overflow: hidden;
-      transition: opacity var(--transition), margin var(--transition), padding var(--transition), max-height var(--transition);
+      transform: translateY(-0.75rem);
+      filter: blur(4px);
+      transition: opacity var(--transition), margin var(--transition), padding var(--transition), max-height var(--transition), transform var(--transition), filter var(--transition);
     }
   }
 }

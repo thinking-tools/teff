@@ -110,14 +110,27 @@ if (!("commandForElement" in HTMLButtonElement.prototype)) {
   });
 }
 
-// Shim to prevent dialog backdrop clicks from bleeding to the element below
-// the click on touch devices.
+// Close modal dialogs on backdrop click/tap; opt out with <dialog data-static>.
+// pointerdown (not click) so selecting text inside and releasing outside
+// doesn't close, and preventDefault stops the tap bleeding through on touch.
 document.addEventListener(
-  "touchstart",
+  "pointerdown",
   (e) => {
-    if (e.target instanceof HTMLDialogElement) {
+    const d = e.target;
+    if (!(d instanceof HTMLDialogElement) || !d.open || d.hasAttribute("data-static")) {
+      return;
+    }
+
+    // Backdrop clicks target the dialog itself; double-check the point is
+    // outside the dialog's box so padding clicks never close it.
+    const r = d.getBoundingClientRect();
+    const inside =
+      e.clientX >= r.left && e.clientX <= r.right &&
+      e.clientY >= r.top && e.clientY <= r.bottom;
+
+    if (!inside) {
       e.preventDefault();
-      e.target.close();
+      d.close();
     }
   },
   { passive: false },

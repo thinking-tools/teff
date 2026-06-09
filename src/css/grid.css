@@ -1,9 +1,16 @@
 @layer components {
   :root {
     --grid-cols: 12;
-    --grid-gap: 1.5rem;
+    --grid-gap: var(--space-6);
     --container-max: 1280px;
-    --container-pad: 1rem;
+    --container-pad: var(--space-4);
+  }
+
+  /* Auto-fit grid: as many columns as fit, each at least --autogrid-min wide. */
+  .autogrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--autogrid-min, 14rem), 100%), 1fr));
+    gap: var(--grid-gap);
   }
 
   .container {
@@ -20,8 +27,9 @@
     width: 100%;
   }
 
-  /* Column spans */
-  .col, [class*="col-"] { grid-column-end: span calc(var(--span, var(--grid-cols)) + var(--offset, 0)); }
+  /* Column spans — only meaningful as direct children of .row. Scoped so the
+     generic names (.col, …) can't hijack placement in unrelated grids. */
+  .row > :is(.col, [class*="col-"]) { grid-column-end: span calc(var(--span, var(--grid-cols)) + var(--offset, 0)); }
 
   .col-1  { --span: 1; }
   .col-2  { --span: 2; }
@@ -44,11 +52,11 @@
   .offset-5  { --offset: 5; }
   .offset-6  { --offset: 6; }
 
-  [class*="offset-"] {
+  .row > [class*="offset-"] {
     margin-inline-start: calc(var(--offset) * (100% + var(--grid-gap)) / (var(--span) + var(--offset)));
   }
 
-  .col-end {
+  .row > .col-end {
     grid-column-start: span var(--span, 1);
     grid-column-end: -1;
   }
@@ -57,12 +65,12 @@
   @media (max-width: 768px) {
     .row {
       --grid-cols: 4;
-      --grid-gap: 1rem;
+      --grid-gap: var(--space-4);
     }
-    .col, [class*="col-"] {
+    .row > :is(.col, [class*="col-"]) {
       --span: 4;
     }
-    [class*="offset-"] {
+    .row > [class*="offset-"] {
       --offset: 0;
       margin-inline-start: 0;
     }

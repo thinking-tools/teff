@@ -12,6 +12,12 @@
     font-size: var(--text-7);
   }
 
+  caption {
+    padding-block-end: var(--space-3);
+    text-align: start;
+    font-weight: var(--font-medium);
+  }
+
   thead {
     border-bottom: 1px solid var(--border);
   }
@@ -42,6 +48,14 @@
 
     &:hover {
       background-color: rgb(from var(--muted) r g b / 0.5);
+    }
+  }
+
+  tfoot {
+    border-top: 1px solid var(--border);
+
+    & :is(th, td) {
+      font-weight: var(--font-medium);
     }
   }
 }

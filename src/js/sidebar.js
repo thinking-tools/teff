@@ -10,8 +10,9 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Dismiss sidebar when clicking outside (when sidebar is not an overlay).
-  if (!e.target.closest('[data-sidebar]')) {
+  // Dismiss the mobile drawer when clicking outside it, or when following a
+  // link inside it (the drawer would otherwise sit open over the new content).
+  if (!e.target.closest('[data-sidebar]') || e.target.closest('[data-sidebar] a[href]')) {
     const layout = document.querySelector('[data-sidebar-layout][data-sidebar-open]');
     // Hardcode breakpoint (for now) as there's no way to use a CSS variable in
     // the @media{} query which could've been picked up here.

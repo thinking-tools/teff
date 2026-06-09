@@ -17,7 +17,6 @@
       z-index: 1;
       background-color: var(--background);
       border-inline-end: 1px solid var(--border);
-      box-shadow: var(--shadow-medium);
       display: flex;
       flex-direction: column;
 
@@ -37,6 +36,18 @@
         padding: var(--space-3) var(--space-2);
         font-size: var(--text-7);
 
+        /* Headings or [data-nav-label] act as section labels between link
+           groups. Prefer [data-nav-label] on a <p> when the labels shouldn't
+           join the page's heading outline. */
+        :is(h2, h3, h4, h5, h6, [data-nav-label]) {
+          font-size: var(--text-8);
+          font-weight: var(--font-semibold);
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: var(--faint-foreground);
+          margin: var(--space-4) var(--space-4) var(--space-1);
+        }
+
         ul {
           list-style: none;
           padding: 0;
@@ -52,15 +63,29 @@
 
         a {
           display: flex;
+          align-items: center;
           gap: var(--space-2);
-          padding: var(--space-1) var(--space-3);
-          color: var(--foreground);
+          min-height: 2.25rem;
+          padding: var(--space-1) var(--space-4);
+          color: var(--muted-foreground);
           text-decoration: none;
-          border-radius: var(--radius-small);
-          transition: background-color var(--transition-fast);
+          border-radius: var(--radius-button);
+          transition: background-color var(--transition-fast), color var(--transition-fast);
 
           &:is(:hover, [aria-current]) {
             background-color: var(--accent);
+            color: var(--foreground);
+          }
+
+          &[aria-current] {
+            font-weight: var(--font-medium);
+          }
+
+          & svg {
+            display: block;
+            width: 1.15em;
+            height: 1.15em;
+            flex-shrink: 0;
           }
         }
 
@@ -75,8 +100,8 @@
 
         summary {
           justify-content: flex-start;
-          padding: var(--space-2) var(--space-3);
-          border-radius: var(--radius-small);
+          padding: var(--space-2) var(--space-4);
+          border-radius: var(--radius-button);
 
           &::after {
             width: 0.75rem;
@@ -97,13 +122,13 @@
     top: 0;
     z-index: 5;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2) var(--space-3);
     padding: var(--space-2) var(--space-4);
     background-color: var(--background);
     border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-small);
-    
+
     a {
       text-decoration: none;
     }
@@ -114,10 +139,26 @@
   }
 
   [data-sidebar-toggle] {
-    padding: 0 var(--space-1);
+    width: 2.5rem;
+    flex-shrink: 0;
+    padding: 0;
     background: none;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-small);
+    color: var(--foreground);
+    border: none;
+    border-radius: var(--radius-button);
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: var(--accent);
+    }
+
+    /* display:block kills the inline baseline gap that nudges icons off-center. */
+    & svg {
+      display: block;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin: auto;
+    }
   }
 
   @media (min-width: 769px) {
@@ -163,12 +204,14 @@
         z-index: 2;
         width: 16rem;
         transform: translateX(-100%);
-        transition: transform var(--transition);
+        visibility: hidden;
+        transition: transform var(--transition), visibility var(--transition);
         box-shadow: var(--shadow-large);
       }
 
       &[data-sidebar-open] > aside[data-sidebar] {
         transform: translateX(0);
+        visibility: visible;
       }
     }
     [data-sidebar-toggle] { display: inline-block; }

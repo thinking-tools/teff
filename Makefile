@@ -24,6 +24,7 @@ CSS_FILES = src/css/00-base.css \
             src/css/dialog.css \
             src/css/dropdown.css \
             src/css/toast.css \
+            src/css/nav.css \
             src/css/sidebar.css \
             src/css/skeleton.css \
             src/css/tooltip.css \

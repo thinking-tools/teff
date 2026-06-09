@@ -1,0 +1,118 @@
+/**
+ * Navigation primitives.
+ *
+ * Breadcrumbs:
+ *   <nav data-breadcrumbs aria-label="Breadcrumb">
+ *     <ol>
+ *       <li><a href="/">Home</a></li>
+ *       <li><a href="/docs">Docs</a></li>
+ *       <li aria-current="page">Buttons</li>
+ *     </ol>
+ *   </nav>
+ *
+ * Inline nav menu (horizontal links):
+ *   <nav data-menu>
+ *     <ul>
+ *       <li><a href="#" aria-current="page">Overview</a></li>
+ *       <li><a href="#">Reports</a></li>
+ *     </ul>
+ *   </nav>
+ */
+@layer components {
+  nav[data-breadcrumbs] {
+    font-size: var(--text-7);
+
+    ol, ul {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-1);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      margin: 0;
+      color: var(--muted-foreground);
+
+      /* Chevron separator before every crumb but the first. */
+      & + li::before {
+        content: "";
+        width: 0.9em;
+        height: 0.9em;
+        flex-shrink: 0;
+        background-color: var(--faint-foreground);
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+      }
+
+      &[aria-current] {
+        color: var(--foreground);
+        font-weight: var(--font-medium);
+      }
+    }
+
+    a {
+      color: var(--muted-foreground);
+      text-decoration: none;
+      border-radius: var(--radius-small);
+      transition: color var(--transition-fast);
+
+      &:hover {
+        color: var(--foreground);
+      }
+    }
+  }
+
+  nav[data-menu] {
+    ul, menu {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-1);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 0;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 2.25rem;
+      padding: var(--space-1) var(--space-4);
+      font-size: var(--text-7);
+      color: var(--muted-foreground);
+      text-decoration: none;
+      border-radius: var(--radius-button);
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+
+      &:hover {
+        background-color: var(--accent);
+        color: var(--foreground);
+      }
+
+      &[aria-current] {
+        background-color: var(--accent);
+        color: var(--foreground);
+        font-weight: var(--font-medium);
+      }
+
+      & svg {
+        display: block;
+        width: 1.15em;
+        height: 1.15em;
+        flex-shrink: 0;
+      }
+    }
+  }
+}

@@ -3,10 +3,10 @@
     position: relative;
     display: flex;
     gap: var(--space-3);
-    padding: var(--space-4) var(--space-6);
+    padding: var(--space-4) var(--space-5);
     background-color: var(--background);
     border: 1px solid var(--border);
-    border-radius: var(--radius-medium);
+    border-radius: var(--radius-large);
     font-size: var(--text-7);
 
     &[data-variant] {

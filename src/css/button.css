@@ -1,12 +1,17 @@
 @layer base {
   :is(button, [type=submit], [type=reset], [type=button], a.button), ::file-selector-button {
-    --_hov: color-mix(in srgb, var(--primary), white 25%);
+    /* Hover mixes toward the page background — lightens dark fills in light
+       mode, darkens light fills in dark mode, for ink and accents alike. */
+    --_hov: color-mix(in srgb, var(--primary), var(--background) 16%);
+    --_px: var(--space-5);
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
+    min-height: 2.5rem;
+    max-width: 100%;
+    padding: var(--space-2) var(--_px);
     font-size: var(--text-7);
     font-weight: var(--font-medium);
     line-height: var(--leading-normal);
@@ -16,8 +21,10 @@
     color: var(--primary-foreground);
     border-radius: var(--radius-button);
     border: 1px solid transparent;
-    box-shadow: var(--shadow-small);
-    transition-property: background-color, box-shadow, opacity, scale;
+    box-shadow:
+      var(--shadow-small),
+      inset 0 1px 0 light-dark(rgb(255 255 255 / 0.12), rgb(255 255 255 / 0));
+    transition-property: background-color, border-color, box-shadow, scale;
     transition-duration: 120ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -33,14 +40,36 @@
       scale: 0.96;
     }
 
+    /* Icons: size to the type, never squish. */
+    & svg {
+      display: block;
+      width: 1.2em;
+      height: 1.2em;
+      flex-shrink: 0;
+    }
+
+    /* Optical alignment: icon-side padding = text-side − 2px. */
+    &:has(> svg:first-child):not(.icon) {
+      padding-inline-start: calc(var(--_px) - 2px);
+    }
+    &:has(> svg:last-child):not(.icon) {
+      padding-inline-end: calc(var(--_px) - 2px);
+    }
+
+    /* Long labels: <span class="truncate"> inside the button ellipsizes. */
+    & > .truncate {
+      min-width: 0;
+    }
+
     &[data-variant="secondary"] {
-      --_hov: color-mix(in srgb, var(--secondary), black 10%);
+      --_hov: color-mix(in srgb, var(--secondary), var(--secondary-foreground) 7%);
       background-color: var(--secondary);
       color: var(--secondary-foreground);
+      box-shadow: none;
     }
 
     &[data-variant="danger"] {
-      --_hov: color-mix(in srgb, var(--danger), black 15%);
+      --_hov: color-mix(in srgb, var(--danger), var(--background) 16%);
       background-color: var(--danger);
       color: var(--danger-foreground);
     }
@@ -49,6 +78,7 @@
       --_hov: var(--accent);
       background-color: transparent;
       color: var(--foreground);
+      box-shadow: none;
 
       &[data-variant="danger"] {
         --_hov: color-mix(in srgb, var(--danger), transparent 90%);
@@ -62,7 +92,7 @@
     }
 
     &.outline {
-      border-color: var(--border);
+      border-color: var(--input);
 
       &[data-variant="danger"] {
         border-color: var(--danger);
@@ -79,13 +109,16 @@
     }
 
     &.small {
-      padding: var(--space-1) var(--space-3);
+      --_px: var(--space-4);
+      min-height: 2rem;
+      padding-block: var(--space-1);
       font-size: var(--text-8);
     }
 
     &.large {
-      height: 3rem;
-      padding: 0 var(--space-6);
+      --_px: var(--space-6);
+      min-height: 3rem;
+      padding-block: 0;
       font-size: var(--text-regular);
     }
 
@@ -106,7 +139,8 @@
   ::file-selector-button {
     background-color: transparent;
     color: var(--foreground);
-    border: 1px solid var(--border);
+    border: 1px solid var(--input);
+    box-shadow: none;
   }
   ::file-selector-button:hover {
     /* pseudoelement:hover can't be nested and has to be a separate block. */
@@ -137,7 +171,7 @@
       }
 
       &:not(:last-child) > * {
-        border-inline-end: 1px solid rgb(from var(--primary-foreground) r g b / 0.2);
+        border-inline-end: 1px solid rgb(from var(--secondary-foreground) r g b / 0.15);
       }
     }
   }

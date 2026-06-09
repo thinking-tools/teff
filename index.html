@@ -1,517 +1,1650 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>teff — component gallery</title>
-  <link rel="stylesheet" href="dist/teff.min.css">
-  <style>
-    /* Demo-page chrome only — built on teff's own tokens, no hardcoded values. */
-    body { margin: 0; }
-    .brand { font-weight: var(--font-bold); font-size: var(--text-5); }
-    main > .wrap { padding: var(--space-6) var(--space-8) var(--space-16); max-width: 70rem; }
-    section { scroll-margin-block-start: var(--space-8); padding-block: var(--space-5); }
-    section + section { border-block-start: 1px solid var(--border); }
-    .demo { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-    .demo.start { align-items: flex-start; }
-    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); gap: var(--space-3); margin-block: var(--space-4); }
-    .swatch { border: 1px solid var(--border); border-radius: var(--radius-medium); overflow: hidden; }
-    .swatch i { display: block; height: 3rem; background: var(--c); border-block-end: 1px solid var(--border); }
-    .swatch span { display: block; padding: var(--space-1) var(--space-2); font-size: var(--text-8); font-family: var(--font-mono); }
-    .controls { margin-inline-start: auto; display: flex; gap: var(--space-3); flex-wrap: wrap; }
-    .controls label { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-8); font-weight: var(--font-medium); }
-    .controls select { width: auto; margin: 0; }
-    svg.ic { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
-  </style>
-</head>
-<body>
-  <!-- The page shell IS the sidebar component: topnav + collapsible aside + scrollable main. -->
-  <div data-sidebar-layout="always">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>teff — semantic UI, two tiny files</title>
+    <meta
+      name="description"
+      content="An ultra-lightweight semantic UI library: one CSS file, one JS file. No framework, no build step, no dependencies — dark mode built in."
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="dist/teff.min.css" />
+    <style>
+      /* Demo-page chrome only — built on teff's own tokens, no hardcoded values. */
+      body {
+        margin: 0;
+      }
+      .brand {
+        font-weight: var(--font-bold);
+        font-size: var(--text-5);
+      }
+      main > .wrap {
+        padding: var(--space-6) var(--space-8) var(--space-16);
+        max-width: 72rem;
+      }
+      section {
+        scroll-margin-block-start: var(--space-8);
+        padding-block: var(--space-8);
+      }
+      section + section {
+        border-block-start: 1px solid var(--border);
+      }
+      section > p {
+        max-width: 46rem;
+      }
+      svg.ic {
+        width: 1.15rem;
+        height: 1.15rem;
+        flex-shrink: 0;
+      }
 
-    <!-- Top navigation bar (spans full width) -->
-    <nav data-topnav>
-      <button data-sidebar-toggle aria-label="Toggle sidebar" title="Toggle sidebar">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-      <a href="#top" class="brand">teff</a>
-      <span class="badge" data-variant="secondary">gallery</span>
+      /* ---- Hero ---- */
+      .hero {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: var(--space-6);
+        padding: var(--space-8);
+        max-width: 72rem;
+      }
+      .hero-ring {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: var(--radius-full);
+        background: conic-gradient(
+          from 90deg,
+          var(--logo-plum),
+          var(--logo-red),
+          var(--logo-orange),
+          var(--logo-citron),
+          var(--logo-green),
+          var(--logo-pine),
+          var(--logo-navy),
+          var(--logo-blue),
+          var(--logo-sky),
+          var(--logo-plum)
+        );
+        mask-image: radial-gradient(circle, transparent 54%, black 56%);
+      }
+      .hero h1 {
+        font-size: clamp(2.75rem, 7vw, 4.5rem);
+        letter-spacing: -0.04em;
+        line-height: 1.05;
+        margin: 0;
+      }
+      .hero > p {
+        font-size: var(--text-4);
+        color: var(--muted-foreground);
+        max-width: 38rem;
+        margin: 0;
+      }
+      .hero h1 sup {
+        font-size: 0.4em;
+        color: var(--muted-foreground);
+      }
+      .hero .fn {
+        font-size: var(--text-7);
+        font-style: italic;
+        color: var(--faint-foreground);
+      }
+      .hero .code {
+        width: 100%;
+        max-width: 38rem;
+      }
+      /* One-shot staggered enter: opacity + translateY + blur (demo chrome). */
+      .hero > * {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(4px);
+        animation: hero-in 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .hero > :nth-child(2) {
+        animation-delay: 100ms;
+      }
+      .hero > :nth-child(3) {
+        animation-delay: 200ms;
+      }
+      .hero > :nth-child(4) {
+        animation-delay: 300ms;
+      }
+      .hero > :nth-child(5) {
+        animation-delay: 400ms;
+      }
+      .hero > :nth-child(6) {
+        animation-delay: 500ms;
+      }
+      .hero > :nth-child(7) {
+        animation-delay: 600ms;
+      }
+      .hero > :nth-child(8) {
+        animation-delay: 700ms;
+      }
+      @keyframes hero-in {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0);
+        }
+      }
 
-      <!-- Live theme controls — these drive the merged 01-theme.css presets on <html>. -->
-      <div class="controls">
-        <label>Accent
-          <select data-control="accent">
-            <option value="blue">blue</option>
-            <option value="teal">teal</option>
-            <option value="green">green</option>
-            <option value="orange">orange</option>
-            <option value="red">red</option>
-            <option value="wine">wine</option>
-            <option value="navy">navy</option>
-          </select>
-        </label>
-        <label>Radius
-          <select data-control="radius">
-            <option value="default">default</option>
-            <option value="sharp">sharp</option>
-            <option value="round">round</option>
-          </select>
-        </label>
-        <label>Density
-          <select data-control="density">
-            <option value="default">default</option>
-            <option value="compact">compact</option>
-            <option value="comfortable">comfortable</option>
-          </select>
-        </label>
-        <label>Theme
-          <select data-control="theme">
-            <option value="auto">auto (OS)</option>
-            <option value="light">light</option>
-            <option value="dark">dark</option>
-          </select>
-        </label>
-      </div>
-    </nav>
+      /* ---- Example + source showcase ---- */
+      .showcase {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-4);
+        align-items: stretch;
+        margin-block: var(--space-5);
+      }
+      @media (min-width: 1100px) {
+        .showcase {
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        }
+      }
+      .example {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        gap: var(--space-3);
+        padding: var(--space-6);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-large);
+      }
+      .example.col {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-    <!-- Sidebar: section navigation -->
-    <aside data-sidebar>
-      <header class="brand">Components</header>
-      <nav>
-        <ul>
-          <li><a href="#theme" aria-current="page">Theme &amp; tokens</a></li>
-          <li><a href="#typography">Typography</a></li>
-          <li><a href="#buttons">Buttons</a></li>
-          <li><a href="#badges">Badges</a></li>
-          <li><a href="#avatars">Avatars</a></li>
-          <li><a href="#alerts">Alerts</a></li>
-          <li><a href="#cards">Cards &amp; grid</a></li>
-          <li><a href="#forms">Forms</a></li>
-          <li><a href="#tables">Tables</a></li>
-          <li><a href="#progress">Progress &amp; meter</a></li>
-          <li><a href="#loading">Spinner &amp; skeleton</a></li>
-          <li><a href="#accordion">Accordion</a></li>
-          <li><a href="#tabs">Tabs</a></li>
-          <li><a href="#dropdown">Dropdown</a></li>
-          <li><a href="#dialog">Dialog</a></li>
-          <li><a href="#tooltips">Tooltips</a></li>
-          <li><a href="#toasts">Toasts</a></li>
-          <li>
-            <details>
-              <summary>Nested (details)</summary>
-              <ul>
-                <li><a href="#utilities">Utilities</a></li>
-              </ul>
-            </details>
-          </li>
-        </ul>
+      /* Code block + copy button (also used for the hero install snippets). */
+      .code {
+        position: relative;
+        min-width: 0;
+      }
+      .code pre {
+        margin: 0;
+        height: 100%;
+        max-height: 24rem;
+        overflow: auto;
+        font-size: var(--text-8);
+        line-height: 1.6;
+        padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+      }
+      .copy {
+        position: absolute;
+        inset-block-start: var(--space-2);
+        inset-inline-end: var(--space-2);
+        display: grid;
+        place-items: center;
+        background: color-mix(in srgb, var(--faint) 80%, transparent);
+        backdrop-filter: blur(3px);
+      }
+      .copy svg {
+        grid-area: 1 / 1;
+        transition:
+          opacity 300ms cubic-bezier(0.2, 0, 0, 1),
+          scale 300ms cubic-bezier(0.2, 0, 0, 1),
+          filter 300ms cubic-bezier(0.2, 0, 0, 1);
+      }
+      .copy .ic-check {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+        color: var(--success);
+      }
+      .copy.ok .ic-check {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0);
+      }
+      .copy.ok .ic:not(.ic-check) {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+      }
+      /* Figma button sits left of the copy button (2rem icon + gap). */
+      .copy.figma {
+        inset-inline-end: calc(var(--space-2) + 2rem + var(--space-1));
+      }
+      .code:has(.figma) pre {
+        padding-inline-end: calc(var(--space-12) + 2.25rem);
+      }
+
+      /* ---- Topnav theme controls: inline on desktop, popover panel on mobile ---- */
+      .controls {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+      .controls label {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        font-size: var(--text-8);
+        font-weight: var(--font-medium);
+      }
+      .controls select {
+        width: auto;
+        margin: 0;
+      }
+      #cfg {
+        border: none;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+      }
+      @media (min-width: 769px) {
+        #cfg {
+          display: contents;
+        }
+        [popovertarget="cfg"] {
+          display: none;
+        }
+      }
+      @media (max-width: 768px) {
+        #cfg {
+          position: fixed;
+          inset: auto var(--space-3) auto auto;
+          top: 3.5rem;
+          /* No display here — closed popovers must keep the UA's display:none,
+             or this sits invisible over the page eating clicks and scroll. */
+          flex-direction: column;
+          align-items: stretch;
+          gap: var(--space-3);
+          padding: var(--space-4);
+          background: var(--card);
+          border-radius: var(--radius-large);
+          box-shadow: var(--shadow-medium);
+          opacity: 0;
+          transform: translateY(-4px) scale(0.97);
+          transform-origin: top right;
+          transition:
+            opacity 150ms var(--ease-out),
+            transform 150ms var(--ease-out),
+            display 150ms allow-discrete,
+            overlay 150ms allow-discrete;
+        }
+        #cfg:popover-open {
+          display: flex;
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        @starting-style {
+          #cfg:popover-open {
+            opacity: 0;
+            transform: translateY(-4px) scale(0.97);
+          }
+        }
+        #cfg label {
+          justify-content: space-between;
+        }
+      }
+
+      /* ---- Syntax highlighting: Prism tokens mapped to teff's palette ---- */
+      .token.tag {
+        color: light-dark(#2068c9, #7ab3ff);
+      }
+      .token.attr-name {
+        color: light-dark(#47804a, #8fd47e);
+      }
+      .token.attr-value,
+      .token.string {
+        color: light-dark(#a85000, #ffa14d);
+      }
+      .token.punctuation {
+        color: var(--muted-foreground);
+      }
+      .token.comment,
+      .token.doctype,
+      .token.prolog {
+        color: var(--faint-foreground);
+        font-style: italic;
+      }
+
+      /* ---- Token swatches ---- */
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+        gap: var(--space-3);
+        margin-block: var(--space-4);
+      }
+      .swatch {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-medium);
+        overflow: hidden;
+      }
+      .swatch i {
+        display: block;
+        height: 3rem;
+        background: var(--c);
+        border-block-end: 1px solid var(--border);
+      }
+      .swatch span {
+        display: block;
+        padding: var(--space-1) var(--space-2) 0;
+        font-size: var(--text-8);
+        font-family: var(--font-mono);
+      }
+      .swatch .hex {
+        display: block;
+        padding: 0 var(--space-2) var(--space-1);
+        font-size: var(--text-8);
+        font-family: var(--font-mono);
+        color: var(--faint-foreground);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- The page shell IS the sidebar component: topnav + collapsible aside + scrollable main. -->
+    <div data-sidebar-layout="always">
+      <!-- Top navigation bar (spans full width) -->
+      <nav data-topnav aria-label="Main">
+        <button
+          data-sidebar-toggle
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
+          data-tooltip-placement="right"
+        >
+          <svg
+            class="ic"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </button>
+        <a href="#top" class="brand">teff</a>
+        <span class="badge" data-variant="secondary">v1.0</span>
+
+        <!-- Live theme controls. One markup set: inline on desktop, popover panel on mobile. -->
+        <div class="controls">
+          <button
+            class="icon ghost"
+            popovertarget="cfg"
+            aria-label="Theme settings"
+            title="Theme settings"
+            data-tooltip-placement="left"
+          >
+            <svg
+              class="ic"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+          </button>
+          <div id="cfg" popover>
+            <label
+              >Accent
+              <select data-control="accent">
+                <option value="default">ink (default)</option>
+                <option value="blue">blue</option>
+                <option value="teal">teal</option>
+                <option value="green">green</option>
+                <option value="orange">orange</option>
+                <option value="red">red</option>
+                <option value="wine">wine</option>
+                <option value="navy">navy</option>
+              </select>
+            </label>
+            <label
+              >Radius
+              <select data-control="radius">
+                <option value="default">round (default)</option>
+                <option value="soft">soft</option>
+                <option value="sharp">sharp</option>
+              </select>
+            </label>
+            <label
+              >Density
+              <select data-control="density">
+                <option value="default">default</option>
+                <option value="compact">compact</option>
+                <option value="comfortable">comfortable</option>
+              </select>
+            </label>
+            <label
+              >Theme
+              <select data-control="theme">
+                <option value="auto">auto (OS)</option>
+                <option value="light">light</option>
+                <option value="dark">dark</option>
+              </select>
+            </label>
+          </div>
+        </div>
       </nav>
-      <footer class="text-light"><small>vanilla web components</small></footer>
-    </aside>
 
-    <!-- Main scrollable content -->
-    <main id="top">
-      <div class="wrap">
-        <h1>teff component gallery</h1>
-        <p class="text-light">Every component the library ships, styled by the merged logo-derived theme. Use the top-bar controls to switch accent, radius, density and light/dark.</p>
-
-        <!-- THEME / TOKENS -->
-        <section id="theme">
-          <h2>Theme &amp; tokens</h2>
-          <p>Semantic colors resolve through <code>light-dark()</code> — flip <strong>Theme</strong> above to see both.</p>
-          <div class="swatches">
-            <div class="swatch" style="--c: var(--primary)"><i></i><span>--primary</span></div>
-            <div class="swatch" style="--c: var(--secondary)"><i></i><span>--secondary</span></div>
-            <div class="swatch" style="--c: var(--accent)"><i></i><span>--accent</span></div>
-            <div class="swatch" style="--c: var(--muted)"><i></i><span>--muted</span></div>
-            <div class="swatch" style="--c: var(--card)"><i></i><span>--card</span></div>
-            <div class="swatch" style="--c: var(--background)"><i></i><span>--background</span></div>
-            <div class="swatch" style="--c: var(--foreground)"><i></i><span>--foreground</span></div>
-            <div class="swatch" style="--c: var(--border)"><i></i><span>--border</span></div>
-            <div class="swatch" style="--c: var(--ring)"><i></i><span>--ring</span></div>
-            <div class="swatch" style="--c: var(--danger)"><i></i><span>--danger</span></div>
-            <div class="swatch" style="--c: var(--success)"><i></i><span>--success</span></div>
-            <div class="swatch" style="--c: var(--warning)"><i></i><span>--warning</span></div>
-          </div>
-        </section>
-
-        <!-- TYPOGRAPHY -->
-        <section id="typography">
-          <h2>Typography</h2>
-          <h3>Heading level 3</h3>
-          <h4>Heading level 4</h4>
-          <p>Body text with a <a href="#top">link</a>, <strong>bold</strong>, <em>italic</em>, <code>inline code</code>, <mark>highlight</mark> and <small>small print</small>.</p>
-          <blockquote>Semantic HTML, styled. No class names required for prose.</blockquote>
-          <pre><code>make dist   # build css + js</code></pre>
+      <!-- Sidebar: section navigation -->
+      <aside data-sidebar>
+        <!-- <header class="brand">teff</header> -->
+        <nav aria-label="Component navigation">
+          <p data-nav-label>Get started</p>
           <ul>
-            <li>Unordered item one</li>
-            <li>Unordered item two</li>
+            <li><a href="#intro" aria-current="page">Introduction</a></li>
+            <li><a href="#theme">Theme &amp; tokens</a></li>
+            <li><a href="#typography">Typography</a></li>
           </ul>
-          <ol>
-            <li>Ordered item one</li>
-            <li>Ordered item two</li>
-          </ol>
-        </section>
+          <p data-nav-label>Components</p>
+          <ul>
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#badges">Badges</a></li>
+            <li><a href="#avatars">Avatars</a></li>
+            <li><a href="#navigation">Navigation</a></li>
+            <li><a href="#cards">Cards &amp; grid</a></li>
+            <li><a href="#forms">Forms</a></li>
+            <li><a href="#tables">Tables</a></li>
+            <li><a href="#accordion">Accordion</a></li>
+            <li><a href="#tabs">Tabs</a></li>
+            <li><a href="#dropdown">Dropdown</a></li>
+            <li><a href="#dialog">Dialog</a></li>
+          </ul>
+          <p data-nav-label>Feedback</p>
+          <ul>
+            <li><a href="#alerts">Alerts</a></li>
+            <li><a href="#progress">Progress &amp; meter</a></li>
+            <li><a href="#loading">Spinner &amp; skeleton</a></li>
+            <li><a href="#tooltips">Tooltips</a></li>
+            <li><a href="#toasts">Toasts</a></li>
+            <li><a href="#motion">Motion</a></li>
+          </ul>
+          <p data-nav-label>Helpers</p>
+          <ul>
+            <li><a href="#utilities">Utilities</a></li>
+          </ul>
+        </nav>
+        <!-- <footer class="text-light">
+          <small>vanilla web components</small>
+        </footer> -->
+      </aside>
 
-        <!-- BUTTONS -->
-        <section id="buttons">
-          <h2>Buttons</h2>
-          <div class="demo">
-            <button>Primary</button>
-            <button data-variant="secondary">Secondary</button>
-            <button data-variant="danger">Danger</button>
-            <button class="outline">Outline</button>
-            <button class="outline" data-variant="danger">Outline danger</button>
-            <button class="ghost">Ghost</button>
-            <button disabled>Disabled</button>
-            <a href="#top" class="button">Link button</a>
-          </div>
-          <div class="demo mt-4">
-            <button class="small">Small</button>
-            <button>Default</button>
-            <button class="large">Large</button>
-            <button class="icon" aria-label="Add" title="Add">
-              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-            </button>
-          </div>
-          <h4>Button group (<code>menu.buttons</code>)</h4>
-          <menu class="buttons">
-            <li><button data-variant="secondary">Left</button></li>
-            <li><button data-variant="secondary">Middle</button></li>
-            <li><button data-variant="secondary">Right</button></li>
-          </menu>
-        </section>
-
-        <!-- BADGES -->
-        <section id="badges">
-          <h2>Badges</h2>
-          <div class="demo">
-            <span class="badge">Default</span>
-            <span class="badge" data-variant="secondary">Secondary</span>
-            <span class="badge" data-variant="success">Success</span>
-            <span class="badge" data-variant="warning">Warning</span>
-            <span class="badge" data-variant="danger">Danger</span>
-            <span class="badge outline">Outline</span>
-          </div>
-        </section>
-
-        <!-- AVATARS -->
-        <section id="avatars">
-          <h2>Avatars</h2>
-          <div class="demo">
-            <figure data-variant="avatar" class="small">AB</figure>
-            <figure data-variant="avatar">CD</figure>
-            <figure data-variant="avatar" class="large">EF</figure>
-            <figure data-variant="avatar">
-              <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%233774c6'/%3E%3Ccircle cx='32' cy='26' r='12' fill='white'/%3E%3Cpath d='M12 60c0-12 9-18 20-18s20 6 20 18' fill='white'/%3E%3C/svg%3E">
-            </figure>
-            <figure data-variant="avatar" role="group" aria-label="Team">
-              <figure data-variant="avatar">JK</figure>
-              <figure data-variant="avatar">LM</figure>
-              <figure data-variant="avatar">NO</figure>
-            </figure>
-          </div>
-        </section>
-
-        <!-- ALERTS -->
-        <section id="alerts">
-          <h2>Alerts</h2>
-          <div class="demo col start">
-            <div role="alert">A neutral, bordered alert with no variant.</div>
-            <div role="alert" data-variant="success">Your changes were saved successfully.</div>
-            <div role="alert" data-variant="warning">Your subscription expires soon.</div>
-            <div role="alert" data-variant="danger">Something went wrong — please retry.</div>
-          </div>
-        </section>
-
-        <!-- CARDS + GRID -->
-        <section id="cards">
-          <h2>Cards &amp; grid</h2>
-          <div class="row">
-            <article class="card col-4">
-              <h4>Card one</h4>
-              <p class="text-light">Three equal columns via <code>.row</code> + <code>.col-4</code>. Stacks on mobile.</p>
-            </article>
-            <article class="card col-4">
-              <h4>Card two</h4>
-              <p class="text-light">Cards use <code>--card</code>, <code>--border</code> and a soft shadow.</p>
-            </article>
-            <article class="card col-4">
-              <h4>Card three</h4>
-              <p class="text-light">Concentric radius, token-driven spacing.</p>
-            </article>
-          </div>
-          <div class="row mt-4">
-            <div class="card col-6">col-6</div>
-            <div class="card col-3 offset-3">col-3 offset-3</div>
-          </div>
-        </section>
-
-        <!-- FORMS -->
-        <section id="forms">
-          <h2>Forms</h2>
-          <div class="row start">
-            <form class="col-6">
-              <div data-field>
-                <label for="name">Name</label>
-                <input id="name" type="text" placeholder="Ada Lovelace">
-              </div>
-              <div data-field>
-                <label for="email">Email</label>
-                <input id="email" type="email" placeholder="ada@example.com" aria-describedby="email-hint">
-                <small data-hint id="email-hint">We&rsquo;ll never share it.</small>
-              </div>
-              <div data-field="error">
-                <label for="pw">Password</label>
-                <input id="pw" type="password" value="123" aria-invalid="true" aria-describedby="pw-err">
-                <small class="error" id="pw-err">Too short — minimum 8 characters.</small>
-              </div>
-              <div data-field>
-                <label for="bio">Bio</label>
-                <textarea id="bio" placeholder="Tell us about yourself"></textarea>
-              </div>
-              <div data-field>
-                <label for="role">Role</label>
-                <select id="role">
-                  <option>Engineer</option>
-                  <option>Designer</option>
-                  <option>Manager</option>
-                </select>
-              </div>
-              <h4>Input group (<code>fieldset.group</code>)</h4>
-              <fieldset class="group">
-                <legend>https://</legend>
-                <input type="text" placeholder="your-site.com" aria-label="Website">
-                <button type="button">Go</button>
-              </fieldset>
-            </form>
-
-            <div class="col-6 vstack">
-              <label><input type="checkbox" checked> Checkbox (checked)</label>
-              <label><input type="checkbox"> Checkbox</label>
-              <label><input type="checkbox" disabled> Disabled</label>
-
-              <fieldset>
-                <legend>Plan</legend>
-                <label><input type="radio" name="plan" checked> Free</label>
-                <label><input type="radio" name="plan"> Pro</label>
-                <label><input type="radio" name="plan"> Team</label>
-              </fieldset>
-
-              <label><input type="checkbox" role="switch" checked> Toggle switch</label>
-
-              <label for="vol">Range</label>
-              <input id="vol" type="range" min="0" max="100" value="60">
-
-              <label for="col">Color</label>
-              <input id="col" type="color" value="#3774c6">
-
-              <label for="file">File</label>
-              <input id="file" type="file">
-            </div>
-          </div>
-        </section>
-
-        <!-- TABLE -->
-        <section id="tables">
-          <h2>Tables</h2>
-          <div class="table">
-            <table>
-              <thead>
-                <tr><th>Component</th><th>Type</th><th>Tag / class</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Tabs</td><td>Custom element</td><td><code>teff-tabs</code></td></tr>
-                <tr><td>Dropdown</td><td>Custom element</td><td><code>teff-dropdown</code></td></tr>
-                <tr><td>Toast</td><td>JS API</td><td><code>teff.toast()</code></td></tr>
-                <tr><td>Card</td><td>CSS only</td><td><code>.card</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- PROGRESS + METER -->
-        <section id="progress">
-          <h2>Progress &amp; meter</h2>
-          <div class="demo col start">
-            <progress value="0.6" max="1"></progress>
-            <progress></progress>
-            <meter value="0.85" min="0" max="1">85%</meter>
-            <meter value="0.5" min="0" max="1" low="0.4" high="0.7" optimum="1">50%</meter>
-            <meter value="0.2" min="0" max="1" low="0.4" high="0.7" optimum="1">20%</meter>
-          </div>
-        </section>
-
-        <!-- SPINNER + SKELETON -->
-        <section id="loading">
-          <h2>Spinner &amp; skeleton</h2>
-          <div class="demo">
-            <span aria-busy="true" data-spinner="small"></span>
-            <span aria-busy="true"></span>
-            <span aria-busy="true" data-spinner="large"></span>
-            <button aria-busy="true">Loading</button>
-          </div>
-          <h4>Overlay (<code>data-spinner="overlay"</code>)</h4>
-          <div class="card" aria-busy="true" data-spinner="overlay" style="max-width: 22rem">
-            <h4>Refreshing data</h4>
-            <p class="text-light">Children dim and become inert while busy.</p>
-          </div>
-          <h4>Skeleton</h4>
-          <div class="card" style="max-width: 22rem">
-            <div role="status" class="skeleton line" style="width: 60%"></div>
-            <div role="status" class="skeleton line"></div>
-            <div role="status" class="skeleton line" style="width: 80%"></div>
-          </div>
-        </section>
-
-        <!-- ACCORDION -->
-        <section id="accordion">
-          <h2>Accordion</h2>
-          <details open>
-            <summary>What is teff?</summary>
-            <p>An ultra-lightweight, semantic component library — one CSS file and one JS file, each usable on its own.</p>
-          </details>
-          <details>
-            <summary>Does it need a build step?</summary>
-            <p>No. Link the CSS and JS and write plain semantic HTML.</p>
-          </details>
-          <details>
-            <summary>Shadow DOM?</summary>
-            <p>None. Components enhance light-DOM markup and read existing ARIA roles.</p>
-          </details>
-        </section>
-
-        <!-- TABS -->
-        <section id="tabs">
-          <h2>Tabs</h2>
-          <teff-tabs>
-            <div role="tablist" aria-label="Example tabs">
-              <button role="tab" aria-selected="true">Overview</button>
-              <button role="tab">Features</button>
-              <button role="tab">Pricing</button>
-            </div>
-            <div role="tabpanel"><p>Overview panel — arrow keys move between tabs.</p></div>
-            <div role="tabpanel"><p>Features panel — ARIA wiring is automatic.</p></div>
-            <div role="tabpanel"><p>Pricing panel — roving tabindex for keyboard nav.</p></div>
-          </teff-tabs>
-        </section>
-
-        <!-- DROPDOWN -->
-        <section id="dropdown">
-          <h2>Dropdown</h2>
-          <teff-dropdown>
-            <button popovertarget="menu-demo" aria-haspopup="menu" aria-expanded="false">Options</button>
-            <menu popover id="menu-demo">
-              <button role="menuitem">Edit</button>
-              <button role="menuitem">Duplicate</button>
-              <hr>
-              <button role="menuitem">Archive</button>
-              <button role="menuitem">Delete</button>
-            </menu>
-          </teff-dropdown>
-        </section>
-
-        <!-- DIALOG -->
-        <section id="dialog">
-          <h2>Dialog</h2>
-          <button command="show-modal" commandfor="demo-dialog">Open dialog</button>
-          <dialog id="demo-dialog">
-            <header>
-              <h3>Delete project?</h3>
-              <p>This action cannot be undone.</p>
-            </header>
-            <div>
-              <p>The project and all of its data will be permanently removed.</p>
-            </div>
-            <footer>
-              <button class="ghost" command="close" commandfor="demo-dialog">Cancel</button>
-              <button data-variant="danger" command="close" commandfor="demo-dialog">Delete</button>
-            </footer>
-          </dialog>
-        </section>
-
-        <!-- TOOLTIPS -->
-        <section id="tooltips">
-          <h2>Tooltips</h2>
-          <p class="text-light">A plain <code>title</code> is progressively enhanced into a styled tooltip.</p>
-          <div class="demo">
-            <button title="Tooltip on top" data-tooltip-placement="top">Top</button>
-            <button title="Tooltip on bottom" data-tooltip-placement="bottom">Bottom</button>
-            <button title="Tooltip on left" data-tooltip-placement="left">Left</button>
-            <button title="Tooltip on right" data-tooltip-placement="right">Right</button>
-          </div>
-        </section>
-
-        <!-- TOASTS -->
-        <section id="toasts">
-          <h2>Toasts</h2>
-          <p class="text-light">Imperative API: <code>teff.toast(message, title, options)</code>.</p>
-          <div class="demo">
-            <button data-toast="info">Info</button>
-            <button data-toast="success">Success</button>
-            <button data-toast="warning">Warning</button>
-            <button data-toast="danger">Danger</button>
-            <button class="outline" data-toast="info" data-placement="bottom-center">Bottom-center</button>
-            <button class="ghost" data-toast-clear>Clear all</button>
-          </div>
-        </section>
-
-        <!-- UTILITIES -->
-        <section id="utilities">
-          <h2>Utilities</h2>
+      <!-- Main scrollable content -->
+      <main id="top">
+        <!-- HERO -->
+        <header class="hero" id="intro">
+          <div class="hero-ring" aria-hidden="true"></div>
+          <h1>
+            Semantic UI library<sup aria-hidden="true">*</sup><br />Two tiny
+            files.
+          </h1>
+          <p>
+            teff styles plain, accessible HTML and sprinkles behavior on top
+            with vanilla web components. No framework, no build step, no
+            dependencies — drop in a stylesheet and go. Inspired by
+            <a href="https://oat.ink">Oat CSS</a>.
+          </p>
+          <!-- <div class="hstack">
+            <img
+              src="https://img.shields.io/badge/license-MIT-47804a?style=flat"
+              alt="MIT license"
+              height="20"
+            />
+            <img
+              src="https://img.shields.io/gitea/stars/thinking_tools/teff?gitea_url=https%3A%2F%2Fcodeberg.org&amp;style=flat&amp;label=stars&amp;color=2068c9"
+              alt="Stars on Codeberg"
+              height="20"
+            />
+            <img
+              src="https://img.shields.io/npm/dm/teff?style=flat&amp;color=a85000"
+              alt="npm downloads per month"
+              height="20"
+            />
+          </div> -->
           <div class="hstack">
-            <span class="badge">hstack</span>
-            <span class="text-light">muted text</span>
-            <span class="text-lighter">fainter text</span>
-            <a href="#top" class="button ghost">action</a>
+            <span class="badge" data-variant="secondary">~9 kB CSS</span>
+            <span class="badge" data-variant="secondary">~3 kB JS</span>
+            <span class="badge" data-variant="secondary">0 dependencies</span>
+            <span class="badge" data-variant="secondary">WCAG AA contrast</span>
+            <span class="badge" data-variant="secondary"
+              >dark mode built in</span
+            >
           </div>
-          <div class="vstack mt-4" style="max-width: 16rem">
-            <button class="w-100">vstack item</button>
-            <button class="w-100" data-variant="secondary">vstack item</button>
+          <div class="code">
+            <pre
+              tabindex="0"
+              role="region"
+              aria-label="Install snippet"
+            ><code class="language-markup">&lt;link rel="stylesheet" href="https://unpkg.com/teff/teff.min.css"&gt;
+&lt;script src="https://unpkg.com/teff/teff.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- or --&gt;  npm install teff</code></pre>
           </div>
-        </section>
+          <div class="hstack">
+            <a href="#buttons" class="button">
+              Browse components
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </a>
+            <a
+              href="https://codeberg.org/thinking_tools/teff"
+              class="button outline"
+              >Source on Codeberg</a
+            >
+          </div>
+          <p class="fn">
+            * with a little extra flavor — like the grain it's named after.
+          </p>
+        </header>
 
-        <footer class="mt-6 text-light">
-          <hr>
-          <p><small>teff — semantic UI, two files, no framework.</small></p>
-        </footer>
-      </div>
-    </main>
-  </div>
+        <div class="wrap">
+          <!-- THEME / TOKENS -->
+          <section id="theme">
+            <h2>Theme &amp; tokens</h2>
+            <p>
+              Every color resolves through <code>light-dark()</code>, so dark
+              mode is automatic. Customize by overriding a handful of custom
+              properties — or flip the presets in the top bar: accent, radius,
+              density, theme.
+            </p>
+            <div class="swatches">
+              <div class="swatch" style="--c: var(--primary)">
+                <i></i><span>--primary</span>
+              </div>
+              <div class="swatch" style="--c: var(--secondary)">
+                <i></i><span>--secondary</span>
+              </div>
+              <div class="swatch" style="--c: var(--muted)">
+                <i></i><span>--muted</span>
+              </div>
+              <div class="swatch" style="--c: var(--background)">
+                <i></i><span>--background</span>
+              </div>
+              <div class="swatch" style="--c: var(--foreground)">
+                <i></i><span>--foreground</span>
+              </div>
+              <div class="swatch" style="--c: var(--border)">
+                <i></i><span>--border</span>
+              </div>
+              <div class="swatch" style="--c: var(--danger)">
+                <i></i><span>--danger</span>
+              </div>
+              <div class="swatch" style="--c: var(--success)">
+                <i></i><span>--success</span>
+              </div>
+              <div class="swatch" style="--c: var(--warning)">
+                <i></i><span>--warning</span>
+              </div>
+              <div class="swatch" style="--c: var(--logo-blue)">
+                <i></i><span>--logo-blue</span>
+              </div>
+              <div class="swatch" style="--c: var(--logo-citron)">
+                <i></i><span>--logo-citron</span>
+              </div>
+              <div class="swatch" style="--c: var(--logo-sky)">
+                <i></i><span>--logo-sky</span>
+              </div>
+            </div>
+            <div class="code">
+              <pre
+                tabindex="0"
+                role="region"
+                aria-label="Theme configuration snippet"
+              ><code class="language-markup">&lt;html data-accent="blue" data-radius="soft" data-density="compact"&gt;
 
-  <script src="dist/teff.min.js"></script>
-  <script>
-    // Live theme controls → toggle preset attributes on <html>.
-    // Also deep-linkable: ?accent=teal&theme=dark&density=compact&radius=round
-    const html = document.documentElement;
-    const params = new URLSearchParams(location.search);
-    const apply = (key, val) => {
-      if (!val || val === 'default' || val === 'auto') html.removeAttribute('data-' + key);
-      else html.setAttribute('data-' + key, val);
-      const sel = document.querySelector(`[data-control="${key}"]`);
-      if (sel && val) sel.value = val;
-    };
-    apply('accent', params.get('accent') || 'blue'); // blue is the :root default
-    for (const k of ['radius', 'density', 'theme']) if (params.get(k)) apply(k, params.get(k));
-    for (const sel of document.querySelectorAll('[data-control]')) {
-      sel.addEventListener('change', () => apply(sel.dataset.control, sel.value));
-    }
+/* or override tokens directly */
+:root {
+  --primary: light-dark(#2068c9, #7ab3ff);
+  --radius-button: 0.75rem;
+}</code></pre>
+            </div>
+          </section>
 
-    // Toast demo buttons.
-    const COPY = {
-      info:    ['Heads up',  'Here is some information you might want.'],
-      success: ['Saved',     'Your changes have been saved.'],
-      warning: ['Careful',   'Please double-check your input.'],
-      danger:  ['Error',     'Something went wrong — please retry.'],
-    };
-    for (const btn of document.querySelectorAll('[data-toast]')) {
-      btn.addEventListener('click', () => {
-        const v = btn.dataset.toast;
-        const [title, msg] = COPY[v];
-        window.teff.toast(msg, title, { variant: v, placement: btn.dataset.placement || 'top-right' });
-      });
-    }
-    document.querySelector('[data-toast-clear]')?.addEventListener('click', () => window.teff.toast.clear());
-  </script>
+          <!-- TYPOGRAPHY -->
+          <section id="typography">
+            <h2>Typography</h2>
+            <p>
+              Prose needs no class names — semantic HTML is styled out of the
+              box.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <hgroup>
+                  <h3>Heading level 3</h3>
+                  <p>An hgroup pairs it with a subtitle.</p>
+                </hgroup>
+                <p>
+                  Body text with a <a href="#top">link</a>,
+                  <strong>bold</strong>, <em>italic</em>,
+                  <code>inline code</code>, <mark>highlight</mark> and
+                  <small>small print</small>.
+                </p>
+                <p>
+                  Press <kbd><kbd>Cmd</kbd> + <kbd>K</kbd></kbd> to search.
+                  <del>Deleted</del> and <ins>inserted</ins> text,
+                  <s>no longer accurate</s>, one <u>mispelled</u> word, an
+                  <abbr title="HyperText Markup Language">HTML</abbr>
+                  abbreviation, H<sub>2</sub>O, e=mc<sup>2</sup> and
+                  <samp>program output</samp>.
+                </p>
+                <blockquote>
+                  The best class name is the one you never had to write.
+                </blockquote>
+                <ul>
+                  <li>Unordered item one</li>
+                  <li>Unordered item two</li>
+                </ul>
+              </div>
+            </div>
+            <div class="showcase">
+              <div class="example col">
+                <dl data-grid>
+                  <dt>Version</dt>
+                  <dd>1.0.0</dd>
+                  <dt>License</dt>
+                  <dd>MIT</dd>
+                  <dt>Dependencies</dt>
+                  <dd>None — two files, vanilla everything.</dd>
+                </dl>
+                <figure>
+                  <img
+                    src="favicon.svg"
+                    alt="The teff logo ring"
+                    width="88"
+                    height="88"
+                  />
+                  <figcaption>Nine grains, one ring — the teff mark.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <!-- BUTTONS -->
+          <section id="buttons">
+            <h2>Buttons</h2>
+            <p>
+              A plain <code>&lt;button&gt;</code> is the primary action.
+              Variants via <code>data-variant</code>, styles via
+              <code>.outline</code>/<code>.ghost</code>, sizes via
+              <code>.small</code>/<code>.large</code>/<code>.icon</code>. Icons
+              just work; wrap long labels in <code>.truncate</code>.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <button>Primary</button>
+                <button data-variant="secondary">Secondary</button>
+                <button data-variant="danger">Danger</button>
+                <button class="outline">Outline</button>
+                <button class="ghost">Ghost</button>
+                <button disabled>Disabled</button>
+                <a href="#buttons" class="button">Link button</a>
+              </div>
+            </div>
+            <div class="showcase">
+              <div class="example">
+                <button class="small">Small</button>
+                <button class="large">Large</button>
+                <button class="icon" aria-label="Add">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  >
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+                    />
+                  </svg>
+                  Download
+                </button>
+                <button data-variant="secondary" style="max-width: 11rem">
+                  <span class="truncate">A very long label that truncates</span>
+                </button>
+                <menu class="buttons">
+                  <li><button data-variant="secondary">Left</button></li>
+                  <li><button data-variant="secondary">Middle</button></li>
+                  <li><button data-variant="secondary">Right</button></li>
+                </menu>
+              </div>
+            </div>
+          </section>
+
+          <!-- BADGES -->
+          <section id="badges">
+            <h2>Badges</h2>
+            <p>
+              Status labels: a <code>.badge</code> span with the same
+              <code>data-variant</code> tones as buttons;
+              <code>.outline</code> keeps it quiet.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <span class="badge">Default</span>
+                <span class="badge" data-variant="secondary">Secondary</span>
+                <span class="badge" data-variant="success">Success</span>
+                <span class="badge" data-variant="warning">Warning</span>
+                <span class="badge" data-variant="danger">Danger</span>
+                <span class="badge outline">Outline</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- AVATARS -->
+          <section id="avatars">
+            <h2>Avatars</h2>
+            <p>
+              Initials in a <code>figure data-variant="avatar"</code> — size
+              with <code>.small</code>/<code>.large</code>, nest them to stack
+              a team.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <figure data-variant="avatar" class="small">AB</figure>
+                <figure data-variant="avatar">CD</figure>
+                <figure data-variant="avatar" class="large">EF</figure>
+                <figure data-variant="avatar" role="group" aria-label="Team">
+                  <figure data-variant="avatar">JK</figure>
+                  <figure data-variant="avatar">LM</figure>
+                  <figure data-variant="avatar">NO</figure>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <!-- NAVIGATION -->
+          <section id="navigation">
+            <h2>Navigation</h2>
+            <p>
+              Breadcrumbs and inline menus enhance plain
+              <code>&lt;nav&gt;</code> markup; the page shell you're looking at
+              is the sidebar layout component.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <nav data-breadcrumbs aria-label="Breadcrumb">
+                  <ol>
+                    <li><a href="#top">Home</a></li>
+                    <li><a href="#top">Library</a></li>
+                    <li aria-current="page">Navigation</li>
+                  </ol>
+                </nav>
+                <nav data-menu aria-label="Example menu">
+                  <ul>
+                    <li>
+                      <a href="#navigation" aria-current="page">Overview</a>
+                    </li>
+                    <li><a href="#navigation">Reports</a></li>
+                    <li><a href="#navigation">Settings</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </section>
+
+          <!-- CARDS + GRID -->
+          <section id="cards">
+            <h2>Cards &amp; grid</h2>
+            <p>
+              A 12-column <code>.row</code>/<code>.col-*</code> grid that stacks
+              on mobile, plus a one-liner <code>.autogrid</code> that fits as
+              many cards as space allows.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div class="row">
+                  <article class="card col-6">
+                    <h3>Card one</h3>
+                    <p class="text-light">
+                      Half width via <code>.col-6</code>.
+                    </p>
+                  </article>
+                  <article class="card col-6">
+                    <h3>Card two</h3>
+                    <p class="text-light">Cards are shadow-ringed surfaces.</p>
+                  </article>
+                </div>
+                <div class="autogrid" style="--autogrid-min: 8rem">
+                  <div class="card">auto</div>
+                  <div class="card">auto</div>
+                  <div class="card">auto</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- FORMS -->
+          <section id="forms">
+            <h2>Forms</h2>
+            <p>
+              Native inputs, selects, checkboxes, radios, switches, ranges,
+              file and search fields — styled directly, validation states
+              included. Field hints and errors hang off
+              <code>data-field</code>. With the JS bundle on the page, password
+              fields grow a show/hide toggle — opt out with
+              <code>data-static</code>.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div data-field>
+                  <label for="name">Name</label>
+                  <input id="name" type="text" placeholder="Ada Lovelace" />
+                </div>
+                <div data-field="error">
+                  <label for="pw">Password</label>
+                  <input
+                    id="pw"
+                    type="password"
+                    value="123"
+                    aria-invalid="true"
+                    aria-describedby="pw-err"
+                  />
+                  <small class="error" id="pw-err"
+                    >Too short — minimum 8 characters.</small
+                  >
+                </div>
+                <div data-field>
+                  <label for="role">Role</label>
+                  <select id="role">
+                    <option>Engineer</option>
+                    <option>Designer</option>
+                  </select>
+                </div>
+                <fieldset class="group">
+                  <legend>https://</legend>
+                  <input
+                    type="text"
+                    placeholder="your-site.com"
+                    aria-label="Website"
+                  />
+                  <button type="button">Go</button>
+                </fieldset>
+              </div>
+            </div>
+            <div class="showcase">
+              <div class="example col">
+                <label><input type="checkbox" checked /> Checkbox</label>
+                <label><input type="radio" name="plan" checked /> Radio</label>
+                <label
+                  ><input type="checkbox" role="switch" checked /> Toggle
+                  switch</label
+                >
+                <label for="vol"
+                  >Volume <output id="vol-out" for="vol">60</output></label
+                >
+                <input
+                  id="vol"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="60"
+                  oninput="document.getElementById('vol-out').value = this.value"
+                />
+              </div>
+            </div>
+            <div class="showcase">
+              <div class="example col">
+                <search>
+                  <label for="q">Search</label>
+                  <input
+                    id="q"
+                    type="search"
+                    placeholder="Search components…"
+                  />
+                </search>
+                <div data-field>
+                  <label for="attachment">Attachment</label>
+                  <input id="attachment" type="file" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TABLE -->
+          <section id="tables">
+            <h2>Tables</h2>
+            <p>
+              Wrap a plain <code>&lt;table&gt;</code> in <code>.table</code> for
+              horizontal scrolling on small screens. Numbers are tabular by
+              default; <code>&lt;caption&gt;</code> and
+              <code>&lt;tfoot&gt;</code> are styled too.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div
+                  class="table"
+                  tabindex="0"
+                  role="region"
+                  aria-label="Bundle breakdown table"
+                >
+                  <table>
+                    <caption>
+                      Bundle breakdown
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th>Component</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Tabs</td>
+                        <td>Custom element</td>
+                        <td>0.9 kB</td>
+                      </tr>
+                      <tr>
+                        <td>Toast</td>
+                        <td>JS API</td>
+                        <td>1.1 kB</td>
+                      </tr>
+                      <tr>
+                        <td>Card</td>
+                        <td>CSS only</td>
+                        <td>0.1 kB</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>Total</td>
+                        <td></td>
+                        <td>2.1 kB</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ACCORDION -->
+          <section id="accordion">
+            <h2>Accordion</h2>
+            <p>
+              Native <code>&lt;details&gt;</code> — adjacent ones fuse into a
+              group.
+            </p>
+            <div class="showcase">
+              <!-- gap: 0 so the example's stack spacing doesn't pry the fused group apart -->
+              <div class="example col" style="gap: 0">
+                <details open>
+                  <summary>What is teff?</summary>
+                  <p>
+                    An ultra-lightweight, semantic component library — one CSS
+                    file and one JS file, each usable on its own.
+                  </p>
+                </details>
+                <details>
+                  <summary>Does it need a build step?</summary>
+                  <p>No. Link the CSS and JS and write plain semantic HTML.</p>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <!-- TABS -->
+          <section id="tabs">
+            <h2>Tabs</h2>
+            <p>
+              <code>&lt;teff-tabs&gt;</code> wires up ARIA and roving keyboard
+              navigation around your existing markup.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <teff-tabs>
+                  <div role="tablist" aria-label="Example tabs">
+                    <button role="tab" aria-selected="true">
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
+                      Overview
+                    </button>
+                    <button role="tab">Features</button>
+                    <button role="tab">Pricing</button>
+                  </div>
+                  <div role="tabpanel">
+                    <p>Overview panel — arrow keys move between tabs.</p>
+                  </div>
+                  <div role="tabpanel">
+                    <p>Features panel — ARIA wiring is automatic.</p>
+                  </div>
+                  <div role="tabpanel">
+                    <p>Pricing panel — roving tabindex for keyboard nav.</p>
+                  </div>
+                </teff-tabs>
+              </div>
+            </div>
+          </section>
+
+          <!-- DROPDOWN -->
+          <section id="dropdown">
+            <h2>Dropdown</h2>
+            <p>
+              Built on the native popover API —
+              <code>&lt;teff-dropdown&gt;</code> adds anchoring and menu
+              keyboard navigation.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <teff-dropdown>
+                  <button
+                    popovertarget="menu-demo"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                  >
+                    Options
+                  </button>
+                  <menu popover id="menu-demo">
+                    <button role="menuitem">Edit</button>
+                    <button role="menuitem">Duplicate</button>
+                    <hr />
+                    <button role="menuitem" data-variant="danger">
+                      Delete
+                    </button>
+                  </menu>
+                </teff-dropdown>
+              </div>
+            </div>
+          </section>
+
+          <!-- DIALOG -->
+          <section id="dialog">
+            <h2>Dialog</h2>
+            <p>
+              Native <code>&lt;dialog&gt;</code> opened declaratively with
+              <code>command</code>/<code>commandfor</code>. Clicking the
+              backdrop closes it — opt out with <code>data-static</code>.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <button command="show-modal" commandfor="demo-dialog">
+                  Open dialog
+                </button>
+                <dialog id="demo-dialog">
+                  <header>
+                    <h3>Delete project?</h3>
+                    <p>This action cannot be undone.</p>
+                  </header>
+                  <div>
+                    <p>
+                      The project and all of its data will be permanently
+                      removed.
+                    </p>
+                  </div>
+                  <footer>
+                    <button
+                      class="ghost"
+                      command="close"
+                      commandfor="demo-dialog"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      data-variant="danger"
+                      command="close"
+                      commandfor="demo-dialog"
+                    >
+                      Delete
+                    </button>
+                  </footer>
+                </dialog>
+              </div>
+            </div>
+          </section>
+
+          <!-- ALERTS -->
+          <section id="alerts">
+            <h2>Alerts</h2>
+            <p>
+              A <code>role="alert"</code> div — neutral by default, tinted by
+              <code>data-variant</code>.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div role="alert">
+                  A new version is available — refresh whenever you're ready.
+                </div>
+                <div role="alert" data-variant="success">
+                  Your changes were saved successfully.
+                </div>
+                <div role="alert" data-variant="warning">
+                  Your subscription expires soon.
+                </div>
+                <div role="alert" data-variant="danger">
+                  Something went wrong — please retry.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PROGRESS + METER -->
+          <section id="progress">
+            <h2>Progress &amp; meter</h2>
+            <p>
+              Native <code>&lt;progress&gt;</code> and
+              <code>&lt;meter&gt;</code> — a bare progress is indeterminate,
+              and meters self-color by their distance from
+              <code>optimum</code>.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <progress value="0.6" max="1"></progress>
+                <progress></progress>
+                <meter value="0.85" min="0" max="1">85%</meter>
+                <meter
+                  value="0.2"
+                  min="0"
+                  max="1"
+                  low="0.4"
+                  high="0.7"
+                  optimum="1"
+                >
+                  20%
+                </meter>
+              </div>
+            </div>
+          </section>
+
+          <!-- SPINNER + SKELETON -->
+          <section id="loading">
+            <h2>Spinner &amp; skeleton</h2>
+            <p>
+              Set <code>aria-busy="true"</code> on anything to get a spinner;
+              add <code>data-spinner="overlay"</code> to dim and disable its
+              contents. The skeleton shimmer runs entirely on the compositor.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <span aria-busy="true" data-spinner="small"></span>
+                <span aria-busy="true"></span>
+                <button aria-busy="true">Loading</button>
+                <div class="card w-100">
+                  <div
+                    role="status"
+                    class="skeleton line"
+                    style="width: 60%"
+                  ></div>
+                  <div role="status" class="skeleton line"></div>
+                  <div
+                    role="status"
+                    class="skeleton line"
+                    style="width: 80%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TOOLTIPS -->
+          <section id="tooltips">
+            <h2>Tooltips</h2>
+            <p>
+              A plain <code>title</code> attribute is progressively enhanced
+              into a styled tooltip.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <button
+                  class="outline"
+                  title="Tooltip on top"
+                  data-tooltip-placement="top"
+                >
+                  Top
+                </button>
+                <button
+                  class="outline"
+                  title="Tooltip on bottom"
+                  data-tooltip-placement="bottom"
+                >
+                  Bottom
+                </button>
+                <button
+                  class="outline"
+                  title="Tooltip on left"
+                  data-tooltip-placement="left"
+                >
+                  Left
+                </button>
+                <button
+                  class="outline"
+                  title="Tooltip on right"
+                  data-tooltip-placement="right"
+                >
+                  Right
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- TOASTS -->
+          <section id="toasts">
+            <h2>Toasts</h2>
+            <p>
+              One imperative call:
+              <code>teff.toast(message, title, options)</code>.
+            </p>
+            <div class="showcase">
+              <div class="example">
+                <button
+                  onclick="teff.toast('Here is some information.', 'Heads up')"
+                >
+                  Info
+                </button>
+                <button
+                  onclick="
+                    teff.toast('Your changes have been saved.', 'Saved', {
+                      variant: 'success',
+                    })
+                  "
+                >
+                  Success
+                </button>
+                <button
+                  onclick="
+                    teff.toast('Please double-check your input.', 'Careful', {
+                      variant: 'warning',
+                    })
+                  "
+                >
+                  Warning
+                </button>
+                <button
+                  onclick="
+                    teff.toast('Something went wrong.', 'Error', {
+                      variant: 'danger',
+                      placement: 'bottom-center',
+                    })
+                  "
+                >
+                  Danger
+                </button>
+                <button class="ghost" onclick="teff.toast.clear()">
+                  Clear all
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- MOTION -->
+          <section id="motion">
+            <h2>Motion</h2>
+            <p>
+              Opt-in, compositor-friendly animations — only
+              <code>opacity</code>, <code>translate</code> and
+              <code>filter</code> ever move, and everything respects
+              <code>prefers-reduced-motion</code>. <code>data-enter</code>
+              fades an element in; <code>data-enter="stagger"</code> cascades
+              its children 100&nbsp;ms apart.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div class="vstack" id="enter-demo" data-enter="stagger">
+                  <h3>Staggered enter</h3>
+                  <p>Each child fades, lifts and unblurs in turn.</p>
+                  <span class="badge" data-variant="secondary">last one</span>
+                </div>
+                <button
+                  class="outline"
+                  onclick="const d = document.getElementById('enter-demo'); d.removeAttribute('data-enter'); void d.offsetWidth; d.setAttribute('data-enter', 'stagger')"
+                >
+                  Replay
+                </button>
+              </div>
+            </div>
+            <p>
+              A quick head-shake for rejected input: call
+              <code>teff.shake(el)</code> when validation fails, or toggle
+              <code>data-shake</code> yourself.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div data-field>
+                  <label for="coupon">Coupon</label>
+                  <input id="coupon" type="text" placeholder="TEFF-2026" />
+                </div>
+                <button
+                  onclick="teff.shake(document.getElementById('coupon'))"
+                >
+                  Apply — always fails
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- UTILITIES -->
+          <section id="utilities">
+            <h2>Utilities</h2>
+            <p>
+              A small set of helpers for the gaps between components: stacks,
+              spacing, truncation, <code>.sr-only</code>, shadows and radii.
+            </p>
+            <div class="showcase">
+              <div class="example col">
+                <div class="hstack">
+                  <span class="badge">hstack</span>
+                  <span class="text-light">muted text</span>
+                  <span class="truncate" style="max-width: 8rem"
+                    >truncated-very-long-token-name</span
+                  >
+                  <a href="#utilities" class="button ghost ms-auto">ms-auto</a>
+                </div>
+                <div class="vstack" style="max-width: 14rem">
+                  <button class="w-100">vstack item</button>
+                  <button class="w-100" data-variant="secondary">
+                    vstack item
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer class="mt-6 text-light">
+            <hr />
+            <p>
+              <small
+                >teff — semantic UI, two files, no framework.
+                <a href="https://codeberg.org/thinking_tools/teff">Codeberg</a>
+                · <a href="https://www.npmjs.com/package/teff">npm</a></small
+              >
+            </p>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <!-- Source extraction runs before teff.min.js so custom elements haven't
+       added their ARIA attributes to the markup yet. -->
+    <script>
+      const COPY_ICON =
+        '<svg class="ic ic-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      const CHECK_ICON =
+        '<svg class="ic ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      const FIGMA_ICON =
+        '<svg class="ic ic-figma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></svg>';
+
+      const dedent = (html) => {
+        const lines = html.replace(/^[\n\r]+|\s+$/g, "").split("\n");
+        const indents = lines
+          .filter((l) => l.trim())
+          .map((l) => l.match(/^ */)[0].length);
+        const min = Math.min(...indents);
+        return lines.map((l) => l.slice(min)).join("\n");
+      };
+
+      // Polite announcement target for copy feedback (screen readers).
+      const live = document.createElement("div");
+      live.className = "sr-only";
+      live.setAttribute("aria-live", "polite");
+      document.body.appendChild(live);
+
+      const addCopy = (codeEl, getText, opts = {}) => {
+        const btn = document.createElement("button");
+        btn.className = "icon small ghost copy" + (opts.cls ? " " + opts.cls : "");
+        const label = opts.label || "Copy to clipboard";
+        btn.setAttribute("aria-label", label);
+        btn.title = label;
+        btn.dataset.tooltipPlacement = "left";
+        btn.innerHTML = (opts.icon || COPY_ICON) + CHECK_ICON;
+        btn.addEventListener("click", async () => {
+          let text;
+          try {
+            text = typeof getText === "function" ? await getText() : getText;
+          } catch {
+            live.textContent = "Copy failed";
+            return;
+          }
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            ta.remove();
+          }
+          live.textContent = opts.announce || "Copied to clipboard";
+          btn.classList.add("ok");
+          setTimeout(() => {
+            btn.classList.remove("ok");
+            live.textContent = "";
+          }, 1500);
+        });
+        codeEl.appendChild(btn);
+      };
+
+      // Figma-ready document: example markup with the live theme config baked
+      // onto <html> and the built CSS/JS inlined, so pasting it into the
+      // html.to.design plugin reproduces exactly what's configured here.
+      let assetsPromise;
+      const loadAssets = () =>
+        (assetsPromise ??= Promise.all(
+          ["dist/teff.min.css", "dist/teff.min.js"].map((f) =>
+            fetch(f)
+              .then((r) => (r.ok ? r.text() : null))
+              .catch(() => null),
+          ),
+        ));
+      const forFigma = (snippet) => {
+        const t = document.createElement("template");
+        t.innerHTML = snippet;
+        // Absolute asset URLs — the import renderer has no base to resolve against.
+        for (const el of t.content.querySelectorAll("[src]"))
+          el.setAttribute(
+            "src",
+            new URL(el.getAttribute("src"), location.href).href,
+          );
+        // Enter animations would be captured mid-flight; ship the resting state.
+        for (const el of t.content.querySelectorAll("[data-enter]"))
+          el.removeAttribute("data-enter");
+        return t.innerHTML;
+      };
+      const figmaDoc = async (snippet) => {
+        const [css, js] = await loadAssets();
+        const root = document.documentElement;
+        const attrs = ["accent", "radius", "density"]
+          .filter((k) => root.dataset[k])
+          .map((k) => ` data-${k}="${root.dataset[k]}"`)
+          .join("");
+        // Resolve "auto" so the import matches what's on screen.
+        const theme =
+          root.dataset.theme ||
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        const style = css
+          ? `<style>${css}</style>`
+          : '<link rel="stylesheet" href="https://unpkg.com/teff/teff.min.css">';
+        const script = js
+          ? `<script>${js.replace(/<\/script>/gi, "<\\/script>")}<\/script>`
+          : '<script src="https://unpkg.com/teff/teff.min.js"><\/script>';
+        return `<!doctype html>
+<html data-theme="${theme}"${attrs}>
+<head>
+<meta charset="utf-8">
+${style}
+</head>
+<body style="padding: 2.5rem">
+${forFigma(snippet)}
+${script}
 </body>
+</html>`;
+      };
+
+      // Generate a source panel next to every example, from the example itself.
+      const labelCounts = new Map();
+      for (const ex of document.querySelectorAll(".showcase > .example")) {
+        const src = dedent(ex.innerHTML);
+        const panel = document.createElement("div");
+        panel.className = "code";
+        const pre = document.createElement("pre");
+        pre.tabIndex = 0;
+        pre.setAttribute("role", "region");
+        // Unique per landmark: "<Section> example source", numbered on repeat.
+        const section =
+          ex.closest("section")?.querySelector("h2")?.textContent || "Example";
+        const n = (labelCounts.get(section) || 0) + 1;
+        labelCounts.set(section, n);
+        pre.setAttribute(
+          "aria-label",
+          `${section} example source${n > 1 ? " " + n : ""}`,
+        );
+        const code = document.createElement("code");
+        code.className = "language-markup";
+        code.textContent = src;
+        pre.appendChild(code);
+        panel.appendChild(pre);
+        addCopy(panel, src);
+        addCopy(panel, () => figmaDoc(src), {
+          cls: "figma",
+          icon: FIGMA_ICON,
+          label: "Copy for Figma (html.to.design)",
+          announce: "Copied Figma-ready HTML — paste into the html.to.design plugin",
+        });
+        ex.parentElement.appendChild(panel);
+      }
+
+      // Copy buttons for the hand-written snippets (hero install, theme config).
+      for (const codeEl of document.querySelectorAll(
+        ".code:not(:has(.copy))",
+      )) {
+        addCopy(codeEl, codeEl.querySelector("code").textContent);
+      }
+    </script>
+    <!-- Syntax highlighting (Prism via CDN). Optional: code degrades to plain
+       text offline. Token colors come from teff's own tokens, no Prism theme. -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"
+    ></script>
+    <script src="dist/teff.min.js"></script>
+    <script>
+      // Live theme controls → toggle preset attributes on <html>.
+      // Deep-linkable: ?accent=teal&theme=dark&density=compact&radius=soft
+      const html = document.documentElement;
+      const params = new URLSearchParams(location.search);
+      const apply = (key, val) => {
+        if (!val || val === "default" || val === "auto")
+          html.removeAttribute("data-" + key);
+        else html.setAttribute("data-" + key, val);
+        const sel = document.querySelector(`[data-control="${key}"]`);
+        if (sel && val) sel.value = val;
+      };
+      for (const k of ["accent", "radius", "density", "theme"])
+        if (params.get(k)) apply(k, params.get(k));
+      for (const sel of document.querySelectorAll("[data-control]")) {
+        sel.addEventListener("change", () =>
+          apply(sel.dataset.control, sel.value),
+        );
+      }
+
+      // Live hex readout per swatch — resolved from the computed color, since
+      // light-dark() and accent presets can't be read statically.
+      const toHex = (color) => {
+        const m = color.match(/[\d.]+/g);
+        if (!m || m.length < 3) return color;
+        const h = (n) => Math.round(Number(n)).toString(16).padStart(2, "0");
+        const a = m.length > 3 && Number(m[3]) < 1 ? h(Number(m[3]) * 255) : "";
+        return "#" + h(m[0]) + h(m[1]) + h(m[2]) + a;
+      };
+      const updateSwatches = () => {
+        for (const sw of document.querySelectorAll(".swatch")) {
+          const hex =
+            sw.querySelector(".hex") ||
+            sw.appendChild(
+              Object.assign(document.createElement("code"), {
+                className: "hex",
+              }),
+            );
+          hex.textContent = toHex(
+            getComputedStyle(sw.querySelector("i")).backgroundColor,
+          );
+        }
+      };
+      updateSwatches();
+      // Document-level so it runs after the control's own listener has
+      // updated the <html> attributes (bubble phase).
+      document.addEventListener("change", (e) => {
+        if (e.target.matches("[data-control]")) updateSwatches();
+      });
+      matchMedia("(prefers-color-scheme: dark)").addEventListener(
+        "change",
+        updateSwatches,
+      );
+
+      // Sidebar scroll-spy: aria-current follows clicks and scroll position.
+      const links = [
+        ...document.querySelectorAll('aside[data-sidebar] nav a[href^="#"]'),
+      ];
+      const byId = new Map(
+        links.map((a) => [a.getAttribute("href").slice(1), a]),
+      );
+      const setCurrent = (id) => {
+        const link = byId.get(id);
+        if (!link) return;
+        for (const a of links) a.removeAttribute("aria-current");
+        link.setAttribute("aria-current", "page");
+      };
+      for (const a of links) {
+        a.addEventListener("click", () =>
+          setCurrent(a.getAttribute("href").slice(1)),
+        );
+      }
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) setCurrent(e.target.id);
+          }
+        },
+        {
+          root: document.querySelector("main"),
+          rootMargin: "0px 0px -75% 0px",
+        },
+      );
+      for (const id of byId.keys()) {
+        const target = document.getElementById(id);
+        if (target) spy.observe(target);
+      }
+    </script>
+  </body>
 </html>

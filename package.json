@@ -12,8 +12,11 @@
     "ui",
     "components",
     "component-library",
-    "teff",
-    "lit"
+    "css",
+    "web-components",
+    "semantic-html",
+    "dark-mode",
+    "teff"
   ],
   "files": [
     "teff.min.css",
@@ -23,7 +26,7 @@
   ],
   "author": "https://codeberg.org/Jolly_Good",
   "license": "MIT",
-  "description": "Ultra-lightweight, semantic UI component library using Lit on top of the Web Components standards https://lit.dev",
+  "description": "An ultra-lightweight semantic UI library: one CSS file, one JS file. No framework, no build step, no dependencies — dark mode built in.",
   "main": "teff.min.js",
   "style": "teff.min.css",
   "unpkg": "teff.min.js",

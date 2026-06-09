@@ -2,7 +2,6 @@
   .card {
     background-color: var(--card);
     color: var(--card-foreground);
-    border: 1px solid var(--border);
     border-radius: var(--radius-large);
     box-shadow: var(--shadow-small);
     padding: var(--space-6);
