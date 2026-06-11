@@ -4,6 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://thinking_tools.codeberg.page/teff/",
   "repository": {
     "type": "git",
     "url": "git+https://git@codeberg.org/thinking_tools/teff.git"
@@ -24,7 +25,7 @@
     "css",
     "js"
   ],
-  "author": "https://codeberg.org/Jolly_Good",
+  "author": "https://codeberg.org/thinking_tools",
   "license": "MIT",
   "description": "An ultra-lightweight semantic UI library: one CSS file, one JS file. No framework, no build step, no dependencies — dark mode built in.",
   "main": "teff.min.js",
