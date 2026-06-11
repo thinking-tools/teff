@@ -12,14 +12,14 @@ Semantic UI, two tiny files. teff styles plain, accessible HTML out of the box a
 **CDN — no build step:**
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/teff/teff.min.css" />
-<script src="https://unpkg.com/teff/teff.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@thinking.tools/teff/teff.min.css" />
+<script src="https://unpkg.com/@thinking.tools/teff/teff.min.js"></script>
 ```
 
 **npm — bundlers (Vite, Next, …):**
 
 ```sh
-npm install teff
+npm install @thinking.tools/teff
 ```
 
 ```js
