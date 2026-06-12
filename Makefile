@@ -1,7 +1,7 @@
 # teff - Build System
 # Requires: esbuild
 
-.PHONY: dist css js clean size publish
+.PHONY: dist css js clean size publish pages
 
 # Local esbuild from devDependencies; override with `make ESBUILD=esbuild` for a global one.
 ESBUILD ?= node_modules/.bin/esbuild
@@ -59,6 +59,30 @@ size:
 	@echo "JS (src):    $$(wc -c < dist/teff.js | tr -d ' ') bytes"
 	@echo "JS (min):    $$(wc -c < dist/teff.min.js | tr -d ' ') bytes"
 	@echo "JS (gzip):   $$(wc -c < dist/teff.min.js.gz | tr -d ' ') bytes"
+
+# Deploy the demo site: rebuild, copy the page + bundles + LLM docs onto the
+# pages branch via a throwaway worktree, commit, push (Codeberg Pages serves
+# the pages branch).
+PAGES_WT = /tmp/teff-pages-wt
+
+pages: dist
+	@git worktree remove --force $(PAGES_WT) 2>/dev/null || true
+	@git worktree add --quiet $(PAGES_WT) pages
+	@cp index.html favicon.svg llms.txt $(PAGES_WT)/
+	@cp REFERENCE.md $(PAGES_WT)/llms-full.txt
+	@VERSION=$$(git describe --tags --abbrev=0) && \
+		sed -i '' -E 's/(id="version">)[^<]*/\1'"$$VERSION"'/' $(PAGES_WT)/index.html
+	@mkdir -p $(PAGES_WT)/dist
+	@cp dist/teff.min.css dist/teff.min.js $(PAGES_WT)/dist/
+	@cd $(PAGES_WT) && git add -A && \
+		if git diff --cached --quiet; then \
+			echo "pages: no changes to publish"; \
+		else \
+			git commit --quiet -m "Publish pages from $$(git describe --tags main)" && \
+			git log --oneline -1; \
+		fi
+	@git worktree remove $(PAGES_WT)
+	@git push origin pages
 
 publish: clean dist
 	@cp -r src/css dist/css

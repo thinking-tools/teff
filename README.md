@@ -55,6 +55,8 @@ Open `index.html` for the full component gallery with copy-paste examples.
 
 [`REFERENCE.md`](REFERENCE.md) is the complete single-file reference — every component, token, and JS API with copy-paste HTML. It ships in the npm package alongside [`llms.txt`](llms.txt) (for AI coding agents), `teff.d.ts` (TypeScript declarations), and `custom-elements.json` (custom elements manifest).
 
+Source lives on [Codeberg](https://codeberg.org/thinking_tools/teff) with a read-only [GitHub mirror](https://github.com/thinking-tools/teff).
+
 ## Theming
 
 Flip presets on `<html>`, or override tokens directly:

@@ -18,6 +18,7 @@ Key facts: write semantic HTML and it is already styled; variants use data-varia
 
 - [Live component gallery](https://thinking_tools.codeberg.page/teff/): every component rendered, with source panels
 - [Repository](https://codeberg.org/thinking_tools/teff): source code (src/css, src/js)
+- [GitHub mirror](https://github.com/thinking-tools/teff): read-only mirror of the Codeberg repository
 
 ## Install
 
