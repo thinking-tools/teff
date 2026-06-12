@@ -364,7 +364,8 @@
           </svg>
         </button>
         <a href="#top" class="brand">teff</a>
-        <span class="badge" data-variant="secondary">v1.0</span>
+        <!-- Version is injected from the latest git tag by `make pages`. -->
+        <span class="badge" data-variant="secondary" id="version">v1.0.3</span>
 
         <!-- Live theme controls. One markup set: inline on desktop, popover panel on mobile. -->
         <div class="controls">
@@ -1382,8 +1383,14 @@
                 >teff — semantic UI, two files, no framework.
                 <a href="https://codeberg.org/thinking_tools/teff">Codeberg</a>
                 ·
+                <a href="https://github.com/thinking-tools/teff">GitHub</a>
+                ·
                 <a href="https://www.npmjs.com/package/@thinking.tools/teff"
                   >npm</a
+                >
+                ·
+                <a href="llms.txt" title="Docs for LLMs and AI agents"
+                  >llms.txt</a
                 ></small
               >
             </p>
