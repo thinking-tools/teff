@@ -65,6 +65,10 @@ publish: clean dist
 	@cp -r src/js dist/js
 	@cp README.md dist/README.md
 	@cp LICENSE dist/LICENSE
+	@cp REFERENCE.md dist/REFERENCE.md
+	@cp llms.txt dist/llms.txt
+	@cp teff.d.ts dist/teff.d.ts
+	@cp custom-elements.json dist/custom-elements.json
 	@VERSION=$$(git describe --tags --abbrev=0 | sed 's/^v//') && \
 		sed -E 's/"version": *"[^"]*"/"version": "'"$$VERSION"'"/' package.json > dist/package.json
 	@cd dist && npm publish --access public

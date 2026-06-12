@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "README.md",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "js/tabs.js",
+      "summary": "Tabs custom element: ARIA wiring and arrow-key navigation around existing tablist markup.",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TeffTabs",
+          "tagName": "teff-tabs",
+          "customElement": true,
+          "summary": "Accessible tabs from semantic child markup.",
+          "description": "Expects a child [role=\"tablist\"] containing [role=\"tab\"] buttons, followed by sibling [role=\"tabpanel\"] elements paired by order. Generates ids, aria-controls and aria-labelledby, manages aria-selected, hidden panels, roving tabindex, and ArrowLeft/ArrowRight navigation. The initially active tab is the one with aria-selected=\"true\", else the first. No Shadow DOM; the light-DOM markup is enhanced in place.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": { "text": "number" },
+              "description": "Zero-based index of the active tab. Setting it activates that tab."
+            }
+          ],
+          "events": [
+            {
+              "name": "teff-tab-change",
+              "type": { "text": "CustomEvent<{ index: number, tab: HTMLElement }>" },
+              "description": "Fired (bubbling, composed) whenever a tab is activated, including the initial activation."
+            }
+          ],
+          "superclass": { "name": "TeffBase", "module": "js/base.js" }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "teff-tabs",
+          "declaration": { "name": "TeffTabs", "module": "js/tabs.js" }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "js/dropdown.js",
+      "summary": "Dropdown custom element: positioning and keyboard navigation for native popover menus.",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TeffDropdown",
+          "tagName": "teff-dropdown",
+          "customElement": true,
+          "summary": "Anchored popover menu with keyboard navigation.",
+          "description": "Expects a child [popovertarget] trigger button and a [popover] menu (typically <menu popover id=\"...\">) containing [role=\"menuitem\"] buttons. Anchors the open menu to the trigger, flipping when it would overflow the viewport; focuses the first item on open; ArrowUp/ArrowDown wrap, Home/End jump; manages aria-expanded on the trigger and returns focus on close. No Shadow DOM.",
+          "members": [],
+          "events": [],
+          "superclass": { "name": "TeffBase", "module": "js/base.js" }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "teff-dropdown",
+          "declaration": { "name": "TeffDropdown", "module": "js/dropdown.js" }
+        }
+      ]
+    }
+  ]
+}

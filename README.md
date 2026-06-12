@@ -24,8 +24,8 @@ npm install @thinking.tools/teff
 
 ```js
 // once, in your app entry
-import "teff/teff.min.css";
-import "teff"; // optional: registers the custom elements + the `teff` global
+import "@thinking.tools/teff/teff.min.css";
+import "@thinking.tools/teff"; // optional: registers the custom elements + the `teff` global
 ```
 
 ## Use
@@ -50,6 +50,10 @@ The CSS covers native elements (buttons, forms, tables, `<dialog>`, `<details>`,
 - two imperative calls: `teff.toast("Saved.", "Done", { variant: "success" })` and `teff.shake(el)`
 
 Open `index.html` for the full component gallery with copy-paste examples.
+
+## Docs
+
+[`REFERENCE.md`](REFERENCE.md) is the complete single-file reference — every component, token, and JS API with copy-paste HTML. It ships in the npm package alongside [`llms.txt`](llms.txt) (for AI coding agents), `teff.d.ts` (TypeScript declarations), and `custom-elements.json` (custom elements manifest).
 
 ## Theming
 

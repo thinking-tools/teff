@@ -23,15 +23,28 @@
     "teff.min.css",
     "teff.min.js",
     "css",
-    "js"
+    "js",
+    "teff.d.ts",
+    "custom-elements.json",
+    "llms.txt",
+    "REFERENCE.md"
   ],
   "author": "https://codeberg.org/thinking_tools",
   "license": "MIT",
   "description": "An ultra-lightweight semantic UI library: one CSS file, one JS file. No framework, no build step, no dependencies — dark mode built in.",
   "main": "teff.min.js",
+  "types": "./teff.d.ts",
   "style": "teff.min.css",
   "unpkg": "teff.min.js",
   "jsdelivr": "teff.min.js",
+  "customElements": "custom-elements.json",
+  "exports": {
+    ".": {
+      "types": "./teff.d.ts",
+      "default": "./teff.min.js"
+    },
+    "./*": "./*"
+  },
   "devDependencies": {
     "esbuild": "^0.28.0",
     "eslint": "^10.4.1"

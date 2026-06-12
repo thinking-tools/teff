@@ -1,0 +1,25 @@
+# teff
+
+> teff is an ultra-lightweight semantic UI library: one CSS file (~9 kB gzip) and one JS file (~3 kB gzip), independently usable. The CSS styles plain semantic HTML (buttons, forms, tables, dialog, details, progress…) with automatic dark mode via light-dark(). The JS adds two custom elements (teff-tabs, teff-dropdown), automatic enhancements (tooltips from title attributes, password show/hide, sidebar shell), and imperative APIs teff.toast() and teff.shake(). No framework, no build step, no dependencies. npm: @thinking.tools/teff. MIT.
+
+Key facts: write semantic HTML and it is already styled; variants use data-variant attributes; theme presets are attributes on <html> (data-theme, data-accent, data-radius, data-density); all styling flows through CSS custom properties.
+
+## Docs
+
+- [Complete reference](https://unpkg.com/@thinking.tools/teff/REFERENCE.md): every component, token, and JS API with copy-paste HTML — single file, also served as llms-full.txt
+- [README](https://unpkg.com/@thinking.tools/teff/README.md): install and quick start
+
+## API metadata
+
+- [custom-elements.json](https://unpkg.com/@thinking.tools/teff/custom-elements.json): machine-readable manifest of the custom elements
+- [teff.d.ts](https://unpkg.com/@thinking.tools/teff/teff.d.ts): TypeScript declarations for the teff global and tag names
+
+## Source & demos
+
+- [Live component gallery](https://thinking_tools.codeberg.page/teff/): every component rendered, with source panels
+- [Repository](https://codeberg.org/thinking_tools/teff): source code (src/css, src/js)
+
+## Install
+
+- CSS: https://unpkg.com/@thinking.tools/teff/teff.min.css
+- JS: https://unpkg.com/@thinking.tools/teff/teff.min.js
